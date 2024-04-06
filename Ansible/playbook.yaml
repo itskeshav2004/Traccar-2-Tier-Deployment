@@ -1,0 +1,50 @@
+---
+- name: Download and Configure Traccar Service
+  hosts: traccar
+  tasks:
+    - name: Check if Traccar is installed
+      stat:
+        path: /opt/traccar
+      register: traccar_installed
+
+    - name: Download Traccar Installation ZIP file
+      get_url:
+        url: "https://github.com/traccar/traccar/releases/download/v5.12/traccar-linux-64-5.12.zip"
+        dest: "/tmp/traccar.zip"
+
+    - name: Create directory to extract files
+      file:
+        path: /tmp/traccar
+        state: directory
+
+    - name: Install unzip package on Debian/Ubuntu
+      apt:
+        name: unzip
+        state: present
+        update_cache: yes
+
+    - name: Extract traccar.zip file
+      unarchive:
+        src: "/tmp/traccar.zip"
+        dest: /tmp/traccar
+        remote_src: yes
+
+    - name: Install Traccar on Server
+      command: /tmp/traccar/traccar.run
+      when: traccar_installed.stat.isdir is not defined or not traccar_installed.stat.exists
+      notify:
+       - Copy XML file and take backup
+       - Restart Traccar service
+
+  handlers:
+    - name: Copy XML file and take backup
+      copy:
+        src: traccar.xml
+        dest: /opt/traccar/conf/traccar.xml
+        backup: yes
+        
+    - name: Restart Traccar service
+      service:
+        name: traccar
+        state: restarted
+        enabled: true

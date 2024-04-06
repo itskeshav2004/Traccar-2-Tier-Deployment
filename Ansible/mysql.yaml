@@ -1,0 +1,5 @@
+- name: Configure MYSQL using Bash script
+  hosts: traccar
+  tasks:
+   - name: Run script to Configure MYSQL
+     script: ./mysql-setup.sh
