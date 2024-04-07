@@ -1,6 +1,8 @@
 #!/bin/bash
 
-HOSTNAME="traccardb.cpexgyntmvef.ap-south-1.rds.amazonaws.com"
+apt install -y mysql-client
+
+HOSTNAME="traccardb.cpexgyntmvef.ap-south-1.rds.amazonaws.com" #Replace with RDS Endpoint
 MYSQL_DB_NAME="traccardb"
 MYSQL_ROOT_USER="admin"
 MYSQL_ROOT_PASSWORD="admin123"

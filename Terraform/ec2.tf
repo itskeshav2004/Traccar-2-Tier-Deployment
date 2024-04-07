@@ -95,13 +95,18 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 }
 
 resource "aws_instance" "traccarEC2" {
+  count                  = 2
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = "t2.micro"
   key_name               = aws_key_pair.traccarKey.key_name
-  subnet_id              = aws_subnet.traccarSubnets[0].id
+  subnet_id              = aws_subnet.traccarSubnets[count.index].id
   vpc_security_group_ids = [aws_security_group.traccarSG.id]
 
   tags = {
-    "Name" = "TRACCAR SERVER"
+    "Name" = "TRACCAR SERVER ${count.index + 1}"
   }
+}
+
+output "private_ip" {
+  value = aws_instance.traccarEC2[*].private_ip
 }

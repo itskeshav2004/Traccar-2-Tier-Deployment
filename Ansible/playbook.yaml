@@ -1,6 +1,8 @@
 ---
 - name: Download and Configure Traccar Service
-  hosts: traccar
+  hosts: 
+    - traccar
+    - traccar2
   tasks:
     - name: Check if Traccar is installed
       stat:

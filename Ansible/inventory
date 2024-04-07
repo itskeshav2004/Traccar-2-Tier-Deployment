@@ -4,3 +4,7 @@ all:
       ansible_host: 10.0.1.4
       ansible_user: "ubuntu"
       ansible_ssh_private_key_file: traccarkey
+    traccar2:
+      ansible_host: 10.0.2.6
+      ansible_user: "ubuntu"
+      ansible_ssh_private_key_file: traccarkey
