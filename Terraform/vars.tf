@@ -17,11 +17,3 @@ variable "subnet_name" {
 variable "db_subnet_name" {
   type = list(string)
 }
-
-variable "port" {
-  type = list(number)
-}
-
-variable "src_cidr" {
-  type = list(string)
-}
