@@ -64,12 +64,11 @@ resource "aws_security_group" "traccarSG" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_connection" {
-  count             = 3
   security_group_id = aws_security_group.traccarSG.id
-  cidr_ipv4         = var.src_cidr[count.index]
-  from_port         = var.port[count.index]
+  referenced_security_group_id = aws_security_group.albSG.id
+  from_port         = 80
   ip_protocol       = "tcp"
-  to_port           = var.port[count.index]
+  to_port           = 80
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_gps_ports" {
